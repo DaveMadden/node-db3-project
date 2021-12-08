@@ -15,29 +15,33 @@ const checkSchemeId = (req, res, next) => {
     })
 }
 
-/*
-  If `scheme_name` is missing, empty string or not a string:
-
-  status 400
-  {
-    "message": "invalid scheme_name"
-  }
-*/
 const validateScheme = (req, res, next) => {
-  next()
+  const sn = req.body.scheme_name
+  if (sn === undefined || sn === null || typeof sn !== 'string'){
+    res.status(400).json({ message: "invalid scheme_name"})
+  }
+  else{
+    next()
+  }
 }
 
-/*
-  If `instructions` is missing, empty string or not a string, or
-  if `step_number` is not a number or is smaller than one:
-
-  status 400
-  {
-    "message": "invalid step"
-  }
-*/
 const validateStep = (req, res, next) => {
-  next()
+  console.log(req.body)
+  const inst = req.body.instructions
+  const num = req.body.step_number
+
+  console.log("instructions:", typeof inst)
+  console.log("step_number:", typeof Number(num))
+  
+  if(inst === undefined || inst === "" || typeof inst !== 'string'){
+    res.status(400).json({ message: 'invalid step'})
+  }
+  else if(num < 1 || typeof num !== 'number'){
+    res.status(400).json({ message: 'invalid step'})
+  }
+  else {
+    next()
+  }
 }
 
 module.exports = {

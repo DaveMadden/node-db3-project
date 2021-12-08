@@ -19,7 +19,7 @@ async function findById(scheme_id) { // EXERCISE B
     .orderBy('st.step_number')
 
   const result = { steps: [] }
-  result.scheme_id = scheme_id
+  result.scheme_id = Number(scheme_id)
   result.scheme_name = rows[0].scheme_name
 
   if (rows[0].step_id === null){
@@ -37,11 +37,10 @@ async function findById(scheme_id) { // EXERCISE B
   return result;
 }
 
-async function checkID(scheme_id) {
+async function checkID(scheme_id) { //verify a record exists
   const rows = await db('schemes')
     .where('scheme_id', scheme_id)
-  console.log(rows)
-  if (rows.length === 0){
+  if (rows.length === 0){ //does not exist
     return false
   }
   return true
