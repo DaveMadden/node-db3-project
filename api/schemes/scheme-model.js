@@ -37,6 +37,16 @@ async function findById(scheme_id) { // EXERCISE B
   return result;
 }
 
+async function checkID(scheme_id) {
+  const rows = await db('schemes')
+    .where('scheme_id', scheme_id)
+  console.log(rows)
+  if (rows.length === 0){
+    return false
+  }
+  return true
+}
+
 async function findSteps(scheme_id) { // EXERCISE C
   const rows = await db('schemes as sc')
     .leftJoin('steps as st', 'sc.scheme_id', 'st.scheme_id')
@@ -68,4 +78,5 @@ module.exports = {
   findSteps,
   add,
   addStep,
+  checkID
 }
