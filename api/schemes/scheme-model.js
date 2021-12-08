@@ -18,12 +18,14 @@ async function findById(scheme_id) { // EXERCISE B
     .select('sc.scheme_name', "st.*")
     .where('sc.scheme_id', scheme_id)
     .orderBy('st.step_number')
-  // return rows;
 
   const result = { steps: [] }
-  // console.log(rows[0])
-  result.scheme_id = rows[0].scheme_id
+  result.scheme_id = scheme_id
   result.scheme_name = rows[0].scheme_name
+
+  if (rows[0].step_id === null){
+    return result
+  }
 
   rows.forEach(row => {
     result.steps.push({
@@ -33,39 +35,7 @@ async function findById(scheme_id) { // EXERCISE B
     })
   })
 
-  console.log(result)
-
-  /*
-    
-    4B- Using the array obtained and vanilla JavaScript, create an object with
-    the structure below, for the case _when steps exist_ for a given `scheme_id`:
-
-      {
-        "scheme_id": 1,
-        "scheme_name": "World Domination",
-        "steps": [
-          {
-            "step_id": 2,
-            "step_number": 1,
-            "instructions": "solve prime number theory"
-          },
-          {
-            "step_id": 1,
-            "step_number": 2,
-            "instructions": "crack cyber security"
-          },
-          // etc
-        ]
-      }
-
-    5B- This is what the result should look like _if there are no steps_ for a `scheme_id`:
-
-      {
-        "scheme_id": 7,
-        "scheme_name": "Have Fun!",
-        "steps": []
-      }
-  */
+  return result;
 }
 
 function findSteps(scheme_id) { // EXERCISE C
